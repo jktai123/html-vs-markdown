@@ -773,18 +773,75 @@
 
   const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
   let wcData = [];
+  let isFallbackMode = false;
+  let localWords = JSON.parse(localStorage.getItem('html_vs_md_reasons') || '[]');
+
+  // 本地模擬模式 (Fallback)
+  function enableLocalFallback() {
+    if (isFallbackMode) return;
+    isFallbackMode = true;
+    console.warn("啟用本地模擬模式 (LocalStorage Fallback)");
+    
+    // 重新綁定事件
+    const btn = document.getElementById('wc-btn');
+    if (btn) {
+      btn.onclick = window.wcSubmit;
+    }
+    updateLocalUI();
+  }
+
+  function updateLocalUI() {
+    const counts = {};
+    localWords.forEach(w => counts[w] = (counts[w] || 0) + 1);
+    wcData = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+    const totalEl = document.getElementById('wc-total');
+    if (totalEl) totalEl.textContent = localWords.length;
+    const uniqueEl = document.getElementById('wc-unique');
+    if (uniqueEl) uniqueEl.textContent = wcData.length;
+
+    const listEl = document.getElementById('wc-list');
+    if (listEl) {
+      listEl.innerHTML = wcData.slice(0, 12).map(([w, c]) =>
+        `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span>${w}</span><span style="color:var(--accent);font-weight:700;">${c}</span>
+        </div>`
+      ).join('') || '<div style="color:#555;padding:8px 0;">尚無資料</div>';
+    }
+
+    const empty = document.getElementById('wc-empty');
+    if (empty) empty.style.display = wcData.length > 0 ? 'none' : '';
+
+    drawWordCloud();
+  }
 
   // 提交
   window.wcSubmit = async function() {
     const input = document.getElementById('wc-input');
     const word = input.value.trim();
     if (!word) return;
+    
+    if (isFallbackMode) {
+      localWords.push(word);
+      localStorage.setItem('html_vs_md_reasons', JSON.stringify(localWords));
+      input.value = '';
+      updateLocalUI();
+      return;
+    }
+
     const btn = document.getElementById('wc-btn');
     btn.disabled = true;
     try {
       await addDoc(wordsRef, { word, created_at: serverTimestamp() });
       input.value = '';
-    } catch(e) { console.error(e); }
+    } catch(e) { 
+      console.error("提交至 Firebase 失敗，啟用本地模擬模式：", e);
+      enableLocalFallback();
+      localWords.push(word);
+      localStorage.setItem('html_vs_md_reasons', JSON.stringify(localWords));
+      input.value = '';
+      updateLocalUI();
+    }
     finally { btn.disabled = false; }
   };
 
@@ -816,6 +873,9 @@
     if (empty) empty.style.display = wcData.length > 0 ? 'none' : '';
 
     drawWordCloud();
+  }, error => {
+    console.error("Firebase 監聽失敗，啟用本地模擬模式:", error);
+    enableLocalFallback();
   });
 
   function drawWordCloud() {
