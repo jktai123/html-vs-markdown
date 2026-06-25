@@ -424,27 +424,27 @@
 
     <!-- ⑤ HTML 的優勢 -->
     <section data-background-image="images/html_power.png" data-background-opacity="0.15" data-background-size="cover">
-      <h2>HTML 的四大優勢</h2>
+      <h2>HTML 派的四大主張：解決「認知瓶頸」</h2>
       <div class="adv-grid">
         <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_cognitive.png" alt="認知瓶頸"></div>
+          <div class="adv-title">破除認知瓶頸</div>
+          <div class="adv-desc">當 AI 生成數千行 Markdown 規格書或計畫時，人類容易流於橡皮圖章，盲目點擊同意。HTML 則能強迫專注</div>
+        </div>
+        <div class="adv-card fragment">
           <div class="adv-icon"><img src="images/icon_chart.png" alt="資訊密度"></div>
-          <div class="adv-title">資訊密度</div>
-          <div class="adv-desc">可嵌入 SVG 圖表、互動表格、錨點導覽，讓複雜資訊一頁呈現，而非線性文字堆砌</div>
+          <div class="adv-title">高視覺資訊密度</div>
+          <div class="adv-desc">透過 CSS 雙欄排版、卡片、SVG 流程圖等，將線性文字轉為空間佈局，讓人能「一眼看懂」複雜結構</div>
         </div>
         <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_palette.png" alt="視覺豐富度"></div>
-          <div class="adv-title">視覺豐富度</div>
-          <div class="adv-desc">CSS 排版 + base64 內嵌圖片 + 空間佈局，視覺設計遠超 Markdown 的純文字</div>
+          <div class="adv-icon"><img src="images/icon_interactive.png" alt="微 UI"></div>
+          <div class="adv-title">丟棄式微 UI (Throwaway UI)</div>
+          <div class="adv-desc">內嵌 JS。AI 不只是寫文章，更是 App 開發者。可生成含按鈕/表單的微型 UI，修改後直接匯出</div>
         </div>
         <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_lightning.png" alt="互動能力"></div>
-          <div class="adv-title">互動能力</div>
-          <div class="adv-desc">JavaScript DOM 操作、可執行程式碼區塊、按鈕與篩選功能，Markdown 無法實現</div>
-        </div>
-        <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_link.png" alt="分享便利性"></div>
+          <div class="adv-icon"><img src="images/icon_link.png" alt="分享便利"></div>
           <div class="adv-title">分享便利性</div>
-          <div class="adv-desc">單一 .html 檔案可在任何瀏覽器完整開啟，無需 Markdown 渲染器或特定閱讀器</div>
+          <div class="adv-desc">單一包含樣式與邏輯的 .html 檔案可在任何瀏覽器直接開啟，極度利於團隊與跨部門分享與決策</div>
         </div>
       </div>
     </section>
@@ -646,13 +646,11 @@
           </ul>
         </div>
         <div class="fragment" style="background:rgba(255,183,77,0.08); border:1px solid rgba(255,183,77,0.25); border-radius:10px; padding:16px;">
-          <div style="font-size:0.5em; font-weight:700; color:var(--warn); margin-bottom:8px;">保留意見 ⚠️</div>
+          <div style="font-size:0.5em; font-weight:700; color:var(--warn); margin-bottom:8px;">Markdown 守護派的反駁 ⚠️</div>
           <ul style="font-size:0.4em; list-style:none; padding:0; color:#ccc; line-height:1.9;">
-            <li>✦ Markdown 可編輯性無可取代</li>
-            <li>✦ HTML diff 雜亂，不利 code review</li>
-            <li>✦ RAG 資料處理管線仍偏好 Markdown</li>
-            <li>✦ 版本控制工作流程有疑慮</li>
-            <li>✦ 非技術使用者學習門檻較高</li>
+            <li>✦ <strong>Token 成本暴增</strong>：HTML 標籤消耗的 Token 是 Markdown 的 2 到 4 倍</li>
+            <li>✦ <strong>Git Diff 災難（雜訊過多）</strong>：代碼變更夾雜大量 CSS/標籤，導致 code review 極難閱讀</li>
+            <li>✦ <strong>機器與 RAG 相容性</strong>：AI 在檢索與理解 Markdown（特別是表格）的精準度仍高於 HTML</li>
           </ul>
         </div>
       </div>
@@ -710,8 +708,9 @@
         </div>
       </div>
 
-      <p class="fragment" style="font-size:0.5em; color:var(--success); text-align:center; margin-top:1em; font-weight:600;">
-        🎯 大 Context 時代，HTML 已是 AI Agent 輸出的最佳選擇
+      <p class="fragment" style="font-size:0.48em; color:var(--success); text-align:center; margin-top:1em; font-weight:600; line-height:1.6;">
+        🎯 工程共識：機器/代碼庫維持使用 Markdown (Git 友善、Token 效率高)<br>
+        人類/交付階段使用 HTML (作為人機互動、雙向協作與打破認知瓶頸的橋樑)
       </p>
     </section>
 
