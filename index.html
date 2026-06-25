@@ -460,7 +460,7 @@
       <div id="tf-wrap" style="position:relative; display:flex; gap:4%; height:390px; width:100%; border-radius:12px; overflow:visible;">
 
         <!-- 左欄：Markdown 原始碼 -->
-        <div id="tf-md-col" style="width:48%; height:100%; background:#0d1117; border-radius:8px; border:1px solid rgba(255,255,255,0.1); padding:15px 20px; box-sizing:border-box; position:relative; overflow:hidden; font-family:'Consolas','Courier New',monospace; font-size:0.38em; line-height:1.7; text-align:left;">
+        <div id="tf-md-col" style="width:48%; height:100%; background:#0d1117; border-radius:8px; border:1px solid rgba(255,255,255,0.1); padding:15px 20px; box-sizing:border-box; position:relative; overflow:hidden; font-family:'Consolas','Courier New',monospace; font-size:0.38em; line-height:1.7; text-align:left; white-space:pre-wrap;">
           <div style="position:absolute; top:8px; left:10px; font-size:0.8em; color:#58a6ff; background:rgba(13,17,23,0.8); padding:2px 8px; border-radius:12px; letter-spacing:0.05em; font-family:monospace; pointer-events:none; z-index:5;">Markdown Code</div>
           <div id="tf-md-content" style="margin-top:20px; color:#cdd9e5; line-height:1.7;">
 <span style="color:#ff7b72; font-weight:700;"># ⚡ AI 互動效能報告</span>
@@ -554,37 +554,77 @@
 
       <style>
         #tf-slider::-webkit-slider-thumb {
-          appearance:none;width:20px;height:20px;border-radius:50%;
-          background:radial-gradient(circle,#fff 30%,#4fc3f7 100%);
-          box-shadow:0 0 8px #4fc3f7;cursor:pointer;
+          appearance:none; width:20px; height:20px; border-radius:50%;
+          background:radial-gradient(circle, #fff 30%, #4fc3f7 100%);
+          box-shadow:0 0 8px #4fc3f7; cursor:pointer;
         }
         #tf-slider::-moz-range-thumb {
-          width:20px;height:20px;border-radius:50%;border:none;
-          background:radial-gradient(circle,#fff 30%,#4fc3f7 100%);
-          box-shadow:0 0 8px #4fc3f7;cursor:pointer;
+          width:20px; height:20px; border-radius:50%; border:none;
+          background:radial-gradient(circle, #fff 30%, #4fc3f7 100%);
+          box-shadow:0 0 8px #4fc3f7; cursor:pointer;
         }
       </style>
 
       <script>
         (function() {
-          function initTransform() {
-            const slider = document.getElementById('tf-slider');
-            if (!slider) return;
-            slider.addEventListener('input', function() {
-              const v = +this.value;
-              document.getElementById('tf-html').style.clipPath = `inset(0 ${100-v}% 0 0)`;
-              document.getElementById('tf-divider').style.left = v + '%';
-              document.getElementById('tf-pct').textContent = v + '%';
-              this.style.background = `linear-gradient(to right,#4fc3f7 ${v}%,rgba(255,255,255,0.15) ${v}%)`;
-              document.getElementById('tf-label-md').style.opacity = v > 80 ? (100-v)/20 : 1;
-              document.getElementById('tf-label-html').style.opacity = v < 20 ? v/20 : 1;
-            });
-          }
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initTransform);
-          } else {
-            initTransform();
-          }
+          // 使用事件代理，避免 Reveal.js 重建 DOM 導致監聽器失效
+          document.addEventListener('input', function(e) {
+            if (e.target && e.target.id === 'tf-slider') {
+              const v = +e.target.value;
+              
+              const htmlContent = document.getElementById('tf-html-content');
+              const scanline = document.getElementById('tf-scanline');
+              const htmlHint = document.getElementById('tf-html-hint');
+              const htmlCol = document.getElementById('tf-html-col');
+              const mdCol = document.getElementById('tf-md-col');
+              const pctText = document.getElementById('tf-pct');
+              
+              // 1. 控制右欄 HTML 揭露
+              if (htmlContent) {
+                htmlContent.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+              }
+              
+              // 2. 控制雷射掃描線
+              if (scanline) {
+                if (v > 0 && v < 100) {
+                  scanline.style.display = 'block';
+                  scanline.style.opacity = '1';
+                  scanline.style.left = v + '%';
+                } else {
+                  scanline.style.opacity = '0';
+                  scanline.style.display = 'none';
+                }
+              }
+              
+              // 3. 控制提示字淡出
+              if (htmlHint) {
+                if (v > 10) {
+                  htmlHint.style.display = 'none';
+                } else {
+                  htmlHint.style.display = 'block';
+                  htmlHint.style.opacity = ((10 - v) / 10).toString();
+                }
+              }
+              
+              // 4. 控制左欄 Markdown 褪色與模糊 (Focus 切換)
+              if (mdCol) {
+                mdCol.style.opacity = (1 - (v / 100) * 0.75).toString();
+                mdCol.style.filter = `blur(${(v / 100) * 2}px)`;
+              }
+              
+              // 5. 控制右欄外框發光強度
+              if (htmlCol) {
+                htmlCol.style.boxShadow = `0 0 ${v * 0.15}px rgba(79, 195, 247, ${v * 0.004})`;
+                htmlCol.style.borderColor = v > 0 ? `rgba(79, 195, 247, ${0.1 + (v/100)*0.4})` : 'rgba(255,255,255,0.1)';
+              }
+              
+              // 6. 更新進度與軌道顏色
+              if (pctText) {
+                pctText.textContent = v + '%';
+              }
+              e.target.style.background = `linear-gradient(to right, #4fc3f7 ${v}%, rgba(255,255,255,0.15) ${v}%)`;
+            }
+          });
         })();
       </script>
     </section>
