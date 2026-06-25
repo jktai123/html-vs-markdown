@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HTML 取代 Markdown？AI 輸出格式的革命</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css">
   <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
   <style>
-    /* === 全域變數 === */
     :root {
-      --accent:  #e8643a;   /* 橘紅 */
-      --accent2: #4fc3f7;   /* 青色 */
-      --success: #81c784;   /* 綠色 */
-      --warn:    #ffb74d;   /* 琥珀色 */
+      --accent: #e8643a;
+      --accent2: #4fc3f7;
+      --success: #81c784;
+      --warn: #ffb74d;
     }
 
     .reveal {
       font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
     }
+
     .reveal h1, .reveal h2, .reveal h3 {
       font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
+
     .reveal h1 { font-size: 2.2em; }
     .reveal h2 { font-size: 1.5em; color: var(--accent2); }
-    .reveal .progress { color: var(--accent); }
-    .reveal .fragment { opacity: 0.2; }
-    .reveal .fragment.visible { opacity: 1; }
 
-    /* === 封面 === */
+    /* 封面 */
     .title-slide { text-align: center; }
     .title-slide .tag {
       display: inline-block;
@@ -44,11 +42,135 @@
       margin-bottom: 0.8em;
       font-weight: 600;
     }
-    .title-slide .subtitle { font-size: 0.75em; color: #aaa; margin-top: 0.5em; }
-    .title-slide .author   { margin-top: 2em; font-size: 0.5em; color: #888; }
+    .title-slide .subtitle {
+      font-size: 0.75em;
+      color: #aaa;
+      margin-top: 0.5em;
+    }
+    .title-slide .author {
+      margin-top: 2em;
+      font-size: 0.5em;
+      color: #888;
+    }
 
-    /* === 優勢卡（並列特點）=== */
-    .adv-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 0.6em; }
+    /* 數字卡片 */
+    .stat-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 1em;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 20px 26px;
+      text-align: center;
+      flex: 1;
+    }
+    .stat-card .num {
+      font-size: 1.8em;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-card .label {
+      font-size: 0.42em;
+      color: #ccc;
+      margin-top: 6px;
+    }
+
+    /* VS 對比 */
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      align-items: start;
+      margin-top: 0.6em;
+    }
+    .vs-col {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .vs-col.html-col { border-top: 3px solid var(--accent2); }
+    .vs-col.md-col  { border-top: 3px solid var(--warn); }
+    .vs-label {
+      font-size: 0.7em;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+    .vs-label.html { color: var(--accent2); }
+    .vs-label.md   { color: var(--warn); }
+    .vs-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4em;
+      font-weight: 900;
+      color: #555;
+      height: 100%;
+    }
+    .vs-col ul {
+      font-size: 0.42em;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .vs-col ul li {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vs-col ul li:last-child { border-bottom: none; }
+    .vs-col ul li::before { content: "✦ "; opacity: 0.5; }
+
+    /* 時間軸 */
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+      margin-top: 0.8em;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: rgba(255,255,255,0.2);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 18px;
+      font-size: 0.46em;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #1a1a2e;
+    }
+    .timeline-item .ti-date {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1em;
+      margin-bottom: 2px;
+    }
+    .timeline-item .ti-text { color: #ccc; }
+
+    /* 優勢卡 */
+    .adv-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 0.6em;
+    }
     .adv-card {
       background: rgba(255,255,255,0.05);
       border-top: 4px solid var(--accent2);
@@ -57,227 +179,559 @@
       text-align: center;
     }
     .adv-card .adv-icon { margin-bottom: 8px; }
-    .adv-card .adv-icon img {
-      width: 56px; height: 56px; object-fit: contain;
-      display: block; margin: 0 auto;
-      filter: drop-shadow(0 0 10px rgba(79,195,247,0.6));
-    }
-    .adv-card .adv-title { font-size: 0.58em; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+    .adv-card .adv-icon img { width: 56px; height: 56px; object-fit: contain; display: block; margin: 0 auto; filter: drop-shadow(0 0 10px rgba(79,195,247,0.6)); }
+    .adv-card .adv-title { font-size: 0.5em; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
     .adv-card .adv-desc  { font-size: 0.4em; color: #bbb; line-height: 1.6; }
 
-    /* === 結論卡 === */
-    .conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 0.8em; }
-    .conclusion-card { border-radius: 10px; padding: 18px; font-size: 0.44em; text-align: left; }
-    .conclusion-card.positive {
-      background: rgba(79,195,247,0.12);
-      border: 1px solid rgba(79,195,247,0.35);
+    /* 引用 */
+    .quote-box {
+      background: rgba(255,255,255,0.05);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 0.8em 0;
+      font-size: 0.55em;
+      color: #ddd;
+      font-style: italic;
+      line-height: 1.7;
     }
-    .conclusion-card.caution {
-      background: rgba(255,183,77,0.1);
-      border: 1px solid rgba(255,183,77,0.3);
+    .quote-author {
+      font-size: 0.4em;
+      color: #888;
+      text-align: right;
+      margin-top: 8px;
+      font-style: normal;
     }
-    .conclusion-card .cc-title { font-size: 1.3em; font-weight: 700; margin-bottom: 8px; }
-    .conclusion-card.positive .cc-title { color: var(--accent2); }
-    .conclusion-card.caution  .cc-title { color: var(--warn); }
-    .conclusion-card ul { list-style: none; padding: 0; margin: 0; color: #ccc; line-height: 1.8; }
+
+    /* Context 圖表 */
+    .ctx-bar-wrap { margin-top: 1em; }
+    .ctx-bar-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.42em;
+    }
+    .ctx-bar-item .ctx-label { width: 110px; color: #aaa; }
+    .ctx-bar-track {
+      flex: 1;
+      height: 22px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .ctx-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #fff;
+      transition: width 1s ease;
+    }
+    .ctx-bar-item .ctx-val { width: 60px; text-align: right; color: #eee; font-weight: 600; }
+
+    /* 結論 */
+    .conclusion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 0.8em;
+    }
+    .conclusion-card {
+      border-radius: 10px;
+      padding: 18px;
+      font-size: 0.44em;
+    }
+    .conclusion-card.use-html {
+      background: rgba(79, 195, 247, 0.12);
+      border: 1px solid rgba(79, 195, 247, 0.35);
+    }
+    .conclusion-card.use-md {
+      background: rgba(255, 183, 77, 0.1);
+      border: 1px solid rgba(255, 183, 77, 0.3);
+    }
+    .conclusion-card .cc-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .conclusion-card.use-html .cc-title { color: var(--accent2); }
+    .conclusion-card.use-md  .cc-title { color: var(--warn); }
+    .conclusion-card ul {
+      list-style: none;
+      padding: 0; margin: 0;
+      color: #ccc;
+      line-height: 1.8;
+    }
     .conclusion-card ul li::before { content: "→ "; opacity: 0.6; }
 
-    /* === 封底 === */
+    /* 底部來源 */
+    .source-note {
+      font-size: 0.3em;
+      color: #555;
+      text-align: center;
+      margin-top: 1em;
+    }
+
+    /* 封底 */
     .end-slide { text-align: center; }
     .end-slide .big { font-size: 3em; margin-bottom: 0.2em; }
     .end-slide .tagline { font-size: 0.65em; color: #aaa; }
 
-    /* === LIVE 動畫 === */
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    /* 進度條顏色 */
+    .reveal .progress { color: var(--accent); }
+
+    /* 片段動畫 */
+    .reveal .fragment { opacity: 0.2; }
+    .reveal .fragment.visible { opacity: 1; }
   </style>
 </head>
 <body>
 <div class="reveal">
   <div class="slides">
 
-    <!-- 1. 封面 -->
-    <section data-background-image="images/cover.png"
-             data-background-opacity="0.35"
-             data-background-size="cover">
+    <!-- ① 封面 -->
+    <section data-background-image="images/cover.png" data-background-opacity="0.35" data-background-size="cover">
       <div class="title-slide">
-        <div class="tag">AI OUTPUT PRESENTATION</div>
+        <div class="tag">2026 年 5 月 · AI 工程趨勢</div>
         <h1>HTML 取代 Markdown？</h1>
-        <h2 style="color:var(--accent); margin-top:0.2em;">AI 輸出格式的革命</h2>
-        <p class="subtitle">Thariq Shihipar 與 Claude Code 帶來的「運算分配者」新溝通浪潮</p>
-        <p class="author">Presented by Antigravity</p>
+        <h2 style="color:#e8643a; margin-top:0.2em;">AI 輸出格式的新革命</h2>
+        <p class="subtitle">從 Anthropic 工程師的一篇文章，<br>到撼動整個 AI 工程師社群的大辯論</p>
+        <p class="author">資料來源：ABMedia、Grenade、Tenten、電腦王阿達、Epsilla<br>整理日期：2026-05-24</p>
       </div>
     </section>
 
-    <!-- 2. 傳統 Markdown 的限制 -->
-    <section>
-      <h2>傳統 Markdown 的限制與瓶頸</h2>
-      <p style="font-size:0.5em; color:#888; margin-top:-10px;">當 AI 輸出的複雜度爆炸，純文字標記正遭遇三大挑戰：</p>
-      <div class="adv-grid">
-        <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_cognitive.png" alt="Cognitive Bottleneck"></div>
-          <div class="adv-title">認知瓶頸</div>
-          <div class="adv-desc">傳統 Markdown 是一條「狹窄的文字長塔」，當要閱讀數千行規格與程式時，人類大腦會遭遇嚴重的認知過載。</div>
-        </div>
-        <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_interactive.png" alt="Lack of Interaction"></div>
-          <div class="adv-title">缺乏互動性</div>
-          <div class="adv-desc">Markdown 是靜態的文件呈現，不支援按鈕、下拉選單、分頁等，無法讓使用者直接在畫面上對計畫進行調整。</div>
-        </div>
-        <div class="adv-card fragment">
-          <div class="adv-icon"><img src="images/icon_loop.png" alt="Out of the Loop"></div>
-          <div class="adv-title">人類脫離決策圈</div>
-          <div class="adv-desc">因為純文字太枯燥、冗長，開發者常會選擇「盲目接受」AI 的計畫，而失去人工審查（Human-in-the-loop）的把關意義。</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. 為什麼選擇 HTML？ -->
-    <section data-background-image="images/why_html.png"
-             data-background-opacity="0.15"
-             data-background-size="cover">
-      <h2>為什麼選擇 HTML 格式？</h2>
-      <div style="display:flex; flex-direction:column; gap:16px; margin-top:30px; text-align:left; font-size:0.55em; line-height:1.8; max-width:800px; margin-left:auto; margin-right:auto;">
-        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent2); padding:12px 20px; border-radius:0 8px 8px 0;">
-          <strong style="color:var(--accent2);">📈 高資訊密度與視覺階層</strong><br>
-          利用 CSS Grid/Flexbox 排版、多彩標籤、SVG 圖表與折疊區塊，能將複雜計畫濃縮在一個螢幕內，大幅提昇掃讀效率。
-        </div>
-        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent2); padding:12px 20px; border-radius:0 8px 8px 0;">
-          <strong style="color:var(--accent2);">⚡ 即時 UI 操控（Throwaway Micro-UIs）</strong><br>
-          AI 可以輸出包含 JS 的一次性迷你工具（例如拖拉式排程、互動表單），讓人類能「直接互動」修改 AI 的下一步。
-        </div>
-        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); padding:12px 20px; border-radius:0 8px 8px 0;">
-          <strong style="color:var(--accent);">🤖 「運算分配者（Compute Allocator）」思維</strong><br>
-          軟體工程師的角色正從「程式碼撰寫者」轉變為「運算資源分配者」。HTML 作為媒介，可以讓我們更精準地引導和驗證 Agent。
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Markdown vs HTML 對比 -->
-    <section>
-      <h2>直觀格式對決 (滑桿展示)</h2>
-      <div style="position:relative; height:420px; border-radius:12px; overflow:hidden; background:#1e1e2e; border:1px solid rgba(255,255,255,0.1); margin-top:20px;">
-        <!-- 左（Before: Markdown） -->
-        <div id="viz-before" style="position:absolute; inset:0; padding:30px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; text-align:left; font-family:monospace; font-size:0.42em; color:#abb2bf; box-sizing:border-box;">
-          <div style="color:#e06c75; font-weight:bold; margin-bottom:10px; font-size:1.2em;"># 專案規劃</div>
-          <p style="margin:4px 0;">- [x] 核心架構設計 (100% 完成)</p>
-          <p style="margin:4px 0;">- [/] Firebase 即時同步 (遇到 CORS，處理中...)</p>
-          <p style="margin:4px 0;">- [ ] 介面美化 (未開始)</p>
-        </div>
-        <!-- 右（After: HTML） -->
-        <div id="viz-after" style="position:absolute; inset:0; padding:30px; display:flex; flex-direction:column; justify-content:center; background:#0d1117; box-sizing:border-box; clip-path:inset(0 100% 0 0);">
-          <div style="text-align:left; width:100%; max-width:600px; margin:0 auto;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <h3 style="margin:0; font-size:0.7em; color:var(--accent2);">互動專案規劃儀表板</h3>
-              <span style="background:var(--accent); color:#fff; font-size:0.35em; padding:2px 8px; border-radius:10px; font-weight:700;">進行中</span>
-            </div>
-            <!-- 進度條 -->
-            <div style="background:rgba(255,255,255,0.1); height:12px; border-radius:6px; overflow:hidden; margin-bottom:20px;">
-              <div style="background:linear-gradient(90deg, var(--accent), var(--accent2)); width:65%; height:100%; border-radius:6px;"></div>
-            </div>
-            <!-- 任務列表卡片 -->
-            <div style="display:grid; grid-template-columns:1fr; gap:8px;">
-              <div style="background:rgba(129,199,132,0.1); border-left:4px solid var(--success); padding:8px 12px; border-radius:4px; font-size:0.4em; display:flex; justify-content:space-between;">
-                <span>✓ 核心架構設計</span>
-                <span style="color:var(--success);">100%</span>
-              </div>
-              <div style="background:rgba(255,183,77,0.1); border-left:4px solid var(--warn); padding:8px 12px; border-radius:4px; font-size:0.4em; display:flex; justify-content:space-between; align-items:center;">
-                <span>⚡ Firebase 即時同步 (遭遇 CORS 阻擋，修復中)</span>
-                <span style="color:var(--warn); font-size:0.85em; background:rgba(255,183,77,0.2); padding:1px 5px; border-radius:3px;">65%</span>
-              </div>
-              <div style="background:rgba(255,255,255,0.05); border-left:4px solid #666; padding:8px 12px; border-radius:4px; font-size:0.4em; color:#888;">
-                ☐ 介面美化 (等待 Firebase 連接完成)
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 分隔線 -->
-        <div id="viz-divider" style="position:absolute; top:0; left:0; width:3px; height:100%; background:linear-gradient(to bottom, transparent, var(--accent2), transparent); box-shadow:0 0 12px var(--accent2); pointer-events:none;"></div>
-        <!-- 標籤 -->
-        <div style="position:absolute; bottom:12px; left:12px; background:rgba(0,0,0,0.6); padding:4px 10px; border-radius:4px; font-size:0.35em; color:#888; pointer-events:none;">Markdown 原始碼</div>
-        <div style="position:absolute; bottom:12px; right:12px; background:rgba(0,0,0,0.6); padding:4px 10px; border-radius:4px; font-size:0.35em; color:var(--accent2); pointer-events:none;">HTML 渲染畫面</div>
-      </div>
-      <div style="margin-top:15px; display:flex; align-items:center; justify-content:center; gap:10px;">
-        <span style="font-size:0.4em; color:#888;">Markdown</span>
-        <input id="viz-slider" type="range" min="0" max="100" value="0" style="width:250px; cursor:pointer;">
-        <span style="font-size:0.4em; color:var(--accent2);">HTML 儀表板</span>
-      </div>
-    </section>
-
-    <!-- 5. 即時文字雲 -->
+    <!-- ② 互動文字雲 -->
     <section id="slide-wordcloud">
-      <h2 style="font-size:1.1em; margin-bottom:0.4em;">你認為未來 AI 輸出會以哪種格式為主？</h2>
+      <h2 style="font-size:1.1em; margin-bottom:0.4em;">你認為使用 HTML 取代 Markdown 的理由為何？</h2>
       <div style="display:grid; grid-template-columns:250px 1fr; gap:14px; height:460px;">
+
         <!-- 左欄：輸入 + 排行 -->
         <div style="display:flex; flex-direction:column; gap:10px;">
           <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px;">
-            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px; text-align:left;">輸入你的答案</div>
-            <input id="wc-input" type="text" placeholder="例：HTML、Markdown、雙格式並存..." maxlength="20"
-              style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid rgba(79,195,247,0.3);
-                     background:rgba(255,255,255,0.08); color:#fff; font-size:13px;
-                     box-sizing:border-box; font-family:inherit; outline:none;" />
-            <button id="wc-btn"
-              style="width:100%; margin-top:8px; padding:9px; background:var(--accent2); color:#0d1117;
-                     border:none; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit;">
+            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px; letter-spacing:0.05em;">輸入你的理由</div>
+            <input id="wc-input" type="text" placeholder="例：視覺更豐富、互動性強…" maxlength="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid rgba(79,195,247,0.3); background:rgba(255,255,255,0.08); color:#fff; font-size:13px; box-sizing:border-box; font-family:inherit; outline:none;">
+            <button id="wc-btn" style="width:100%; margin-top:8px; padding:9px; background:var(--accent2); color:#0d1117; border:none; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit;">
               送出 ↵
             </button>
           </div>
+
           <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px; flex:1; overflow:hidden; display:flex; flex-direction:column;">
-            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px; text-align:left;">
-              熱門答案
-              <span style="display:inline-block; background:#ff4757; color:#fff; padding:2px 7px;
-                           border-radius:10px; font-size:0.85em; animation:pulse 1.5s infinite;">LIVE</span>
+            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px;">
+              熱門理由
+              <span style="display:inline-block; background:#ff4757; color:#fff; padding:2px 7px; border-radius:10px; font-size:0.85em; animation:pulse 1.5s infinite;">LIVE</span>
             </div>
-            <div id="wc-list" style="font-size:0.34em; overflow-y:auto; flex:1; color:#ccc; text-align:left;"></div>
-            <div style="margin-top:8px; font-size:0.32em; color:#666; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px; text-align:left;">
-              總提交：<span id="wc-total" style="color:var(--accent); font-weight:700;">0</span>　
-              不同答案：<span id="wc-unique" style="color:var(--accent2); font-weight:700;">0</span>
+            <div id="wc-list" style="font-size:0.34em; overflow-y:auto; flex:1; color:#ccc;"></div>
+            <div style="margin-top:8px; font-size:0.32em; color:#666; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px;">
+              總提交：<span id="wc-total" style="color:var(--accent); font-weight:700;">0</span>
+              不同理由：<span id="wc-unique" style="color:var(--accent2); font-weight:700;">0</span>
             </div>
           </div>
         </div>
 
         <!-- 右欄：文字雲 -->
-        <div style="background:rgba(255,255,255,0.04); border-radius:12px; overflow:hidden;
-                    position:relative; border:1px solid rgba(255,255,255,0.07);">
+        <div style="background:rgba(255,255,255,0.04); border-radius:12px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.07);">
           <canvas id="wc-canvas" style="width:100%; height:100%; display:block;"></canvas>
-          <div id="wc-empty" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-                                     color:#444; font-size:0.42em; text-align:center;
-                                     pointer-events:none; line-height:2;">
-            輸入第一個答案<br>文字雲就會出現 ✨
+          <div id="wc-empty" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#444; font-size:0.42em; text-align:center; pointer-events:none; line-height:2;">
+            輸入第一個理由<br>文字雲就會出現 ✨
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6. 結論 -->
-    <section data-background-image="images/ending.png"
-             data-background-opacity="0.35"
-             data-background-size="cover">
-      <h2>結論：各司其職的未來</h2>
-      <div class="conclusion-grid">
-        <div class="conclusion-card positive">
-          <div class="cc-title">🌐 HTML 的舞台</div>
-          <ul>
-            <li>**終端簡報與呈現**：網頁直接展示。</li>
-            <li>**AI 與人類互動界面**：一次性微型 UIs。</li>
-            <li>**高密度資訊檢視**：提升審查意願。</li>
-          </ul>
+    <!-- ③ 事件起源 -->
+    <section>
+      <h2>事件起源</h2>
+      <div style="text-align:center; margin-bottom:0.5em;">
+        <img src="images/viral.png" alt="病毒式擴散" style="width:55%; border-radius:12px; box-shadow:0 0 30px rgba(79,195,247,0.3); display:inline-block;">
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="ti-date">2026 年 5 月 8 日</div>
+          <div class="ti-text">Anthropic Claude Code 工程師 <strong>Thariq Shihipar</strong> 在 X 平台發表文章<br>「<em>The Unreasonable Effectiveness of HTML</em>」</div>
         </div>
-        <div class="conclusion-card caution">
-          <div class="cc-title">📄 Markdown 的防線</div>
-          <ul>
-            <li>**版本控制 (Git)**：不帶混亂的 diff 雜訊。</li>
-            <li>**輕量級程式碼存儲**：極致的 Token 效率。</li>
-            <li>**跨編輯器通用性**：不需渲染器即開即用。</li>
-          </ul>
+        <div class="timeline-item">
+          <div class="ti-date">發文後 16 小時內</div>
+          <div class="ti-text">迅速引爆全球工程師社群，登上 Hacker News 熱榜</div>
+        </div>
+        <div class="timeline-item">
+          <div class="ti-date">延燒至今</div>
+          <div class="ti-text">Threads、LinkedIn、Medium、各大技術部落格持續討論，<br>多家 AI 公司跟進測試</div>
         </div>
       </div>
-      <div class="end-slide" style="margin-top:40px;">
-        <p class="tagline">探索更高效的人機協同架構 — 感謝您的聆聽</p>
+
+      <div class="stat-row fragment">
+        <div class="stat-card">
+          <div class="num">440<span style="font-size:0.5em">萬+</span></div>
+          <div class="label">16 小時瀏覽次數</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">8,200<span style="font-size:0.5em">+</span></div>
+          <div class="label">按讚數</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">15,700<span style="font-size:0.5em">+</span></div>
+          <div class="label">書籤收藏數</div>
+        </div>
       </div>
     </section>
 
-  </div>
-</div>
+    <!-- ④ 為什麼過去選 Markdown -->
+    <section>
+      <h2>為什麼過去大家用 Markdown？</h2>
+      <div class="quote-box">
+        早期 LLM 的 context window 只有幾 K token，開發者必須<strong>節省每一個字元</strong>。
+        Markdown 語法簡潔，HTML 標籤比 Markdown 多消耗大量 token，在小 context 時代不划算。
+        <div class="quote-author">— 工程師社群共識</div>
+      </div>
+
+      <div class="ctx-bar-wrap fragment">
+        <div class="ctx-bar-item">
+          <div class="ctx-label">GPT-3 時代</div>
+          <div class="ctx-bar-track">
+            <div class="ctx-bar-fill" style="width:4%; background:#e8643a;">4K</div>
+          </div>
+          <div class="ctx-val">4K</div>
+        </div>
+        <div class="ctx-bar-item">
+          <div class="ctx-label">GPT-4 / 早期</div>
+          <div class="ctx-bar-track">
+            <div class="ctx-bar-fill" style="width:8%; background:#ff8a65;">8K</div>
+          </div>
+          <div class="ctx-val">8K</div>
+        </div>
+        <div class="ctx-bar-item">
+          <div class="ctx-label">Claude 2</div>
+          <div class="ctx-bar-track">
+            <div class="ctx-bar-fill" style="width:20%; background:#ffb74d;">100K</div>
+          </div>
+          <div class="ctx-val">100K</div>
+        </div>
+        <div class="ctx-bar-item">
+          <div class="ctx-label">Claude 3.x / 4.x</div>
+          <div class="ctx-bar-track">
+            <div class="ctx-bar-fill" style="width:100%; background:#4fc3f7;">200K – 1M</div>
+          </div>
+          <div class="ctx-val">1M</div>
+        </div>
+      </div>
+      <p class="fragment" style="font-size:0.45em; color:#81c784; text-align:center; margin-top:0.6em;">
+        ✅ 進入百萬 token 時代，HTML 的 token 開銷不再是瓶頸
+      </p>
+    </section>
+
+    <!-- ⑤ HTML 的優勢 -->
+    <section data-background-image="images/html_power.png" data-background-opacity="0.15" data-background-size="cover">
+      <h2>HTML 的四大優勢</h2>
+      <div class="adv-grid">
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_chart.png" alt="資訊密度"></div>
+          <div class="adv-title">資訊密度</div>
+          <div class="adv-desc">可嵌入 SVG 圖表、互動表格、錨點導覽，讓複雜資訊一頁呈現，而非線性文字堆砌</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_palette.png" alt="視覺豐富度"></div>
+          <div class="adv-title">視覺豐富度</div>
+          <div class="adv-desc">CSS 排版 + base64 內嵌圖片 + 空間佈局，視覺設計遠超 Markdown 的純文字</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_lightning.png" alt="互動能力"></div>
+          <div class="adv-title">互動能力</div>
+          <div class="adv-desc">JavaScript DOM 操作、可執行程式碼區塊、按鈕與篩選功能，Markdown 無法實現</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_link.png" alt="分享便利性"></div>
+          <div class="adv-title">分享便利性</div>
+          <div class="adv-desc">單一 .html 檔案可在任何瀏覽器完整開啟，無需 Markdown 渲染器或特定閱讀器</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ 互動演示：Markdown → HTML 即時轉換 -->
+    <section id="slide-transform">
+      <h2 style="margin-bottom:0.3em;">親眼見證：Markdown ➜ HTML 即時轉換</h2>
+
+      <!-- 雙層疊合區域 -->
+      <div id="tf-wrap" style="position:relative; height:390px; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
+
+        <!-- Layer 1：Markdown 原始碼（底層，永遠可見）-->
+        <div id="tf-md" style="position:absolute;inset:0;padding:20px 24px;background:#0d1117;overflow:hidden;font-family:'Consolas','Courier New',monospace;font-size:0.38em;line-height:1.9;color:#8b949e;">
+<span style="color:#ff7b72;font-weight:700;">## AI 輸出格式的演進</span>
+
+<span style="color:#cdd9e5;">過去 LLM context window 有限，</span><span style="color:#e6edf3;">**Markdown**</span><span style="color:#cdd9e5;"> 因語法精簡而成為標準。</span>
+<span style="color:#e6edf3;">**Thariq Shihipar**</span><span style="color:#cdd9e5;"> 在 2026 年 5 月大膽提出：</span>
+
+<span style="color:#58a6ff;">&gt; 「HTML 才是 AI Agent 的最佳輸出格式，</span>
+<span style="color:#58a6ff;">&gt;  Markdown 的時代已經過去。」</span>
+
+<span style="color:#ff7b72;font-weight:700;">### 三大關鍵優勢</span>
+
+<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**視覺化**</span><span style="color:#cdd9e5;"> — SVG 圖表、精準排版、嵌入圖片</span>
+<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**互動性**</span><span style="color:#cdd9e5;"> — JavaScript 動態行為、按鈕事件</span>
+<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**分享力**</span><span style="color:#cdd9e5;"> — 單一 .html 檔，全裝置瀏覽器即開即用</span>
+
+<span style="color:#ffa657;">| 比較項目　　</span><span style="color:#ffa657;">| Markdown |  HTML  |</span>
+<span style="color:#ffa657;">|------------|----------|--------|</span>
+<span style="color:#ffa657;">| 視覺豐富度　</span><span style="color:#ffa657;">|    低    |   高   |</span>
+<span style="color:#ffa657;">| 互動能力　　</span><span style="color:#ffa657;">|    無    |   強   |</span>
+<span style="color:#ffa657;">| Token 效率  </span><span style="color:#ffa657;">|    高    |   中   |</span>
+        </div>
+
+        <!-- Layer 2：HTML 渲染結果（上層，clip-path 控制）-->
+        <div id="tf-html" style="position:absolute;inset:0;padding:20px 24px;background:#161b22;overflow:hidden;clip-path:inset(0 100% 0 0);transition:clip-path 0s;">
+          <h2 style="font-size:1.4em;color:#4fc3f7;font-weight:700;margin:0 0 10px;border-bottom:2px solid rgba(79,195,247,0.3);padding-bottom:6px;">AI 輸出格式的演進</h2>
+          <p style="font-size:0.42em;color:#cdd9e5;margin:0 0 8px;line-height:1.7;">
+            過去 LLM context window 有限，<strong style="color:#fff;">Markdown</strong> 因語法精簡而成為標準。
+            <strong style="color:#fff;">Thariq Shihipar</strong> 在 2026 年 5 月大膽提出：
+          </p>
+          <blockquote style="margin:8px 0;padding:10px 16px;border-left:4px solid #4fc3f7;background:rgba(79,195,247,0.07);border-radius:0 8px 8px 0;">
+            <p style="font-size:0.4em;color:#93c5fd;font-style:italic;margin:0;line-height:1.7;">
+              「HTML 才是 AI Agent 的最佳輸出格式，<br>Markdown 的時代已經過去。」
+            </p>
+          </blockquote>
+          <h3 style="font-size:0.9em;color:#e8643a;font-weight:700;margin:10px 0 6px;">三大關鍵優勢</h3>
+          <ul style="font-size:0.4em;color:#cdd9e5;padding-left:1.2em;margin:0 0 10px;line-height:1.8;">
+            <li><strong style="color:#81c784;">視覺化</strong> — SVG 圖表、精準排版、嵌入圖片</li>
+            <li><strong style="color:#ffb74d;">互動性</strong> — JavaScript 動態行為、按鈕事件</li>
+            <li><strong style="color:#ce93d8;">分享力</strong> — 單一 .html 檔，全裝置瀏覽器即開即用</li>
+          </ul>
+          <table style="font-size:0.36em;width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:rgba(79,195,247,0.15);">
+                <th style="padding:6px 12px;text-align:left;color:#4fc3f7;border-bottom:1px solid rgba(79,195,247,0.3);">比較項目</th>
+                <th style="padding:6px 12px;text-align:center;color:#ffb74d;border-bottom:1px solid rgba(79,195,247,0.3);">Markdown</th>
+                <th style="padding:6px 12px;text-align:center;color:#81c784;border-bottom:1px solid rgba(79,195,247,0.3);">HTML</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:rgba(255,255,255,0.02);">
+                <td style="padding:5px 12px;color:#cdd9e5;">視覺豐富度</td>
+                <td style="padding:5px 12px;text-align:center;color:#f87171;">低 ✗</td>
+                <td style="padding:5px 12px;text-align:center;color:#4ade80;">高 ✓</td>
+              </tr>
+              <tr>
+                <td style="padding:5px 12px;color:#cdd9e5;">互動能力</td>
+                <td style="padding:5px 12px;text-align:center;color:#f87171;">無 ✗</td>
+                <td style="padding:5px 12px;text-align:center;color:#4ade80;">強 ✓</td>
+              </tr>
+              <tr style="background:rgba(255,255,255,0.02);">
+                <td style="padding:5px 12px;color:#cdd9e5;">Token 效率</td>
+                <td style="padding:5px 12px;text-align:center;color:#4ade80;">高 ✓</td>
+                <td style="padding:5px 12px;text-align:center;color:#facc15;">中 △</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 分隔線（跟著滑桿移動）-->
+        <div id="tf-divider" style="position:absolute;top:0;left:0%;width:3px;height:100%;background:linear-gradient(to bottom,transparent,#4fc3f7,#4fc3f7,transparent);box-shadow:0 0 12px #4fc3f7,0 0 24px rgba(79,195,247,0.4);pointer-events:none;transition:left 0s;">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#4fc3f7;border-radius:50%;width:18px;height:18px;box-shadow:0 0 10px #4fc3f7;"></div>
+        </div>
+
+        <!-- 左右標籤 -->
+        <div id="tf-label-md" style="position:absolute;top:8px;left:10px;font-size:0.28em;color:#58a6ff;background:rgba(13,17,23,0.8);padding:3px 10px;border-radius:20px;letter-spacing:0.05em;font-family:monospace;pointer-events:none;">{ Markdown 原始碼 }</div>
+        <div id="tf-label-html" style="position:absolute;top:8px;right:10px;font-size:0.28em;color:#4fc3f7;background:rgba(22,27,34,0.8);padding:3px 10px;border-radius:20px;letter-spacing:0.05em;pointer-events:none;">HTML 渲染結果</div>
+      </div>
+
+      <!-- 滑桿控制區 -->
+      <div style="margin-top:14px;display:flex;align-items:center;gap:14px;">
+        <span style="font-size:0.38em;color:#58a6ff;font-family:monospace;white-space:nowrap;">{ Markdown }</span>
+        <input id="tf-slider" type="range" min="0" max="100" value="0" style="flex:1;height:6px;border-radius:3px;appearance:none;background:linear-gradient(to right,#4fc3f7 0%,#4fc3f7 0%,rgba(255,255,255,0.15) 0%);outline:none;cursor:pointer;">
+        <span style="font-size:0.38em;color:#4fc3f7;white-space:nowrap;">HTML ✦</span>
+        <span id="tf-pct" style="font-size:0.38em;color:#888;min-width:3em;text-align:right;">0%</span>
+      </div>
+
+      <style>
+        #tf-slider::-webkit-slider-thumb {
+          appearance:none;width:20px;height:20px;border-radius:50%;
+          background:radial-gradient(circle,#fff 30%,#4fc3f7 100%);
+          box-shadow:0 0 8px #4fc3f7;cursor:pointer;
+        }
+        #tf-slider::-moz-range-thumb {
+          width:20px;height:20px;border-radius:50%;border:none;
+          background:radial-gradient(circle,#fff 30%,#4fc3f7 100%);
+          box-shadow:0 0 8px #4fc3f7;cursor:pointer;
+        }
+      </style>
+
+      <script>
+        (function() {
+          function initTransform() {
+            const slider = document.getElementById('tf-slider');
+            if (!slider) return;
+            slider.addEventListener('input', function() {
+              const v = +this.value;
+              document.getElementById('tf-html').style.clipPath = `inset(0 ${100-v}% 0 0)`;
+              document.getElementById('tf-divider').style.left = v + '%';
+              document.getElementById('tf-pct').textContent = v + '%';
+              this.style.background = `linear-gradient(to right,#4fc3f7 ${v}%,rgba(255,255,255,0.15) ${v}%)`;
+              document.getElementById('tf-label-md').style.opacity = v > 80 ? (100-v)/20 : 1;
+              document.getElementById('tf-label-html').style.opacity = v < 20 ? v/20 : 1;
+            });
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTransform);
+          } else {
+            initTransform();
+          }
+        })();
+      </script>
+    </section>
+
+    <!-- ⑦ HTML vs Markdown 對比 -->
+    <section>
+      <h2>HTML vs Markdown：全面對比</h2>
+      <div class="vs-grid">
+        <div class="vs-col html-col">
+          <div class="vs-label html">⬡ HTML</div>
+          <ul>
+            <li>SVG、Canvas、互動圖表</li>
+            <li>CSS 自訂排版與樣式</li>
+            <li>JavaScript 互動邏輯</li>
+            <li>base64 內嵌圖片</li>
+            <li>長文件導覽錨點</li>
+            <li>豐富的跨平台渲染</li>
+            <li>可執行的程式碼沙盒</li>
+          </ul>
+        </div>
+        <div class="vs-center">VS</div>
+        <div class="vs-col md-col">
+          <div class="vs-label md">⬡ Markdown</div>
+          <ul>
+            <li>語法簡潔易讀易寫</li>
+            <li>任意文字編輯器可開啟</li>
+            <li>Git diff 清晰可讀</li>
+            <li>token 消耗較少</li>
+            <li>版本控制友善</li>
+            <li>可直接轉換多種格式</li>
+            <li>適合資料處理管線</li>
+          </ul>
+        </div>
+      </div>
+      <p class="source-note">資料整理自 Thariq Shihipar 文章及社群討論</p>
+    </section>
+
+    <!-- ⑧ 核心主張 -->
+    <section>
+      <h2>核心主張</h2>
+      <div class="quote-box">
+        Markdown 正在成為「沒有人讀 AI 產出內容」的原因之一——<br>
+        它讓 AI 的輸出停留在<strong>線性文字</strong>的層次，<br>
+        而 HTML 能讓 AI 輸出成為真正的<strong>多維度互動文件</strong>。
+        <div class="quote-author">— Thariq Shihipar，Anthropic Claude Code 工程師</div>
+      </div>
+
+      <div class="quote-box fragment" style="border-left-color: var(--accent2);">
+        HTML 可在單一自我包含的文件中同時呈現：<br>
+        複雜表格、SVG 向量插圖、可執行程式碼、<br>
+        JavaScript 互動元件、空間佈局，以及文件範圍樣式表。
+        <div class="quote-author">— AI 工程師社群共識</div>
+      </div>
+    </section>
+
+    <!-- ⑨ 社群反應 -->
+    <section>
+      <h2>社群反應</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:0.6em;">
+        <div style="background:rgba(79,195,247,0.08); border:1px solid rgba(79,195,247,0.25); border-radius:10px; padding:16px;">
+          <div style="font-size:0.5em; font-weight:700; color:var(--accent2); margin-bottom:8px;">支持陣營 ✅</div>
+          <ul style="font-size:0.4em; list-style:none; padding:0; color:#ccc; line-height:1.9;">
+            <li>✦ AI 工程師社群快速形成共識</li>
+            <li>✦ 「幾乎所有正式 Agent 輸出場景 HTML 都更好」</li>
+            <li>✦ Hacker News 熱榜討論</li>
+            <li>✦ Medium、技術部落格大量跟進</li>
+            <li>✦ 多家 AI 公司測試切換</li>
+          </ul>
+        </div>
+        <div class="fragment" style="background:rgba(255,183,77,0.08); border:1px solid rgba(255,183,77,0.25); border-radius:10px; padding:16px;">
+          <div style="font-size:0.5em; font-weight:700; color:var(--warn); margin-bottom:8px;">保留意見 ⚠️</div>
+          <ul style="font-size:0.4em; list-style:none; padding:0; color:#ccc; line-height:1.9;">
+            <li>✦ Markdown 可編輯性無可取代</li>
+            <li>✦ HTML diff 雜亂，不利 code review</li>
+            <li>✦ RAG 資料處理管線仍偏好 Markdown</li>
+            <li>✦ 版本控制工作流程有疑慮</li>
+            <li>✦ 非技術使用者學習門檻較高</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑩ RAG 場景 -->
+    <section>
+      <h2>RAG 場景的例外</h2>
+      <div class="quote-box">
+        2026 年 benchmark 研究顯示：在 RAG（檢索增強生成）的<strong>資料處理管線</strong>中，<br>
+        Markdown 仍有優勢；但在最終<strong>展示端輸出</strong>，HTML 明顯勝出。
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:0.6em;">
+        <div style="text-align:center; background:rgba(79,195,247,0.08); border-radius:10px; padding:16px;">
+          <div style="font-size:0.7em; font-weight:700; color:var(--accent2);">展示端輸出</div>
+          <div style="margin:10px 0;"><img src="images/icon_trophy.png" alt="Trophy" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,183,77,0.7));"></div>
+          <div style="font-size:0.45em; color:#ccc;">HTML 明顯勝出<br>互動、視覺、可讀性</div>
+        </div>
+        <div style="text-align:center; background:rgba(255,183,77,0.08); border-radius:10px; padding:16px;">
+          <div style="font-size:0.7em; font-weight:700; color:var(--warn);">資料處理管線</div>
+          <div style="margin:10px 0;"><img src="images/icon_clipboard.png" alt="Clipboard" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(79,195,247,0.6));"></div>
+          <div style="font-size:0.45em; color:#ccc;">Markdown 仍有優勢<br>解析、轉換、索引</div>
+        </div>
+      </div>
+
+      <p style="font-size:0.42em; color:#888; text-align:center; margin-top:0.8em;">
+        結論：HTML 與 Markdown 並非零和競爭，適用場景不同
+      </p>
+    </section>
+
+    <!-- ⑪ 結論與建議 -->
+    <section>
+      <h2>結論與建議</h2>
+      <div class="conclusion-grid">
+        <div class="conclusion-card use-html">
+          <div class="cc-title">選 HTML 的時機</div>
+          <ul>
+            <li>AI Agent 最終輸出報告</li>
+            <li>需要視覺化或圖表</li>
+            <li>分享給非技術人員</li>
+            <li>互動式儀表板</li>
+            <li>長篇多章節文件</li>
+          </ul>
+        </div>
+        <div class="conclusion-card use-md">
+          <div class="cc-title">選 Markdown 的時機</div>
+          <ul>
+            <li>需要 Git 版本控制</li>
+            <li>RAG 資料處理管線</li>
+            <li>開發者協作文件</li>
+            <li>需要多格式轉換</li>
+            <li>純文字編輯場景</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="fragment" style="font-size:0.5em; color:var(--success); text-align:center; margin-top:1em; font-weight:600;">
+        🎯 大 Context 時代，HTML 已是 AI Agent 輸出的最佳選擇
+      </p>
+    </section>
+
+    <!-- ⑫ 封底 -->
+    <section data-background-image="images/ending.png" data-background-opacity="0.4" data-background-size="cover">
+      <div class="end-slide">
+        <div class="big"><img src="images/icon_globe.png" alt="Globe" style="width:160px;height:160px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(79,195,247,0.7));"></div>
+        <h1 style="color:var(--accent2);">The Unreasonable Effectiveness<br>of HTML</h1>
+        <p class="tagline">
+          「不要讓 Markdown 成為沒有人閱讀 AI 輸出的原因」<br>
+          — Thariq Shihipar，Anthropic
+        </p>
+        <div style="margin-top:2em; font-size:0.4em; color:#555;">
+          整理自 ABMedia｜Grenade｜Tenten｜電腦王阿達｜Epsilla Blog｜Lenny's Newsletter
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /slides -->
+</div><!-- /reveal -->
 
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script>
@@ -292,16 +746,9 @@
     slideNumber: 'c/t',
     plugins: []
   });
-
-  // VIZ 滑桿控制
-  document.getElementById('viz-slider').addEventListener('input', function() {
-    const v = +this.value;
-    document.getElementById('viz-after').style.clipPath = `inset(0 ${100-v}% 0 0)`;
-    document.getElementById('viz-divider').style.left = v + '%';
-  });
 </script>
 
-<!-- Firebase 文字雲即時連線 -->
+<!-- Firebase 即時文字雲 -->
 <script type="module">
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
   import {
@@ -309,7 +756,6 @@
     serverTimestamp, query, orderBy
   } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
 
-  // 沿用 Firebase 預設專案設定
   const firebaseConfig = {
     apiKey: "AIzaSyAYQhNavPSce17XtvDC5xnXyl9iUhW9KjA",
     authDomain: "teacherstudy-109ef.firebaseapp.com",
@@ -318,13 +764,15 @@
     messagingSenderId: "196599230156",
     appId: "1:196599230156:web:cfe55d364df3ae1b9d5c69"
   };
+
   const app = initializeApp(firebaseConfig);
   const fdb = getFirestore(app);
-  const wordsRef = collection(fdb, 'html_vs_markdown_wordcloud');
+  const wordsRef = collection(fdb, 'html_vs_md_reasons');
 
   const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
   let wcData = [];
 
+  // 提交
   window.wcSubmit = async function() {
     const input = document.getElementById('wc-input');
     const word = input.value.trim();
@@ -343,12 +791,11 @@
   });
   document.getElementById('wc-btn')?.addEventListener('click', window.wcSubmit);
 
+  // 即時監聽 Firestore
   onSnapshot(query(wordsRef, orderBy('created_at', 'asc')), snap => {
     const words = [];
-    snap.forEach(doc => {
-      const data = doc.data();
-      if (data && data.word) words.push(data.word);
-    });
+    snap.forEach(doc => words.push(doc.data().word));
+
     const counts = {};
     words.forEach(w => counts[w] = (counts[w] || 0) + 1);
     wcData = Object.entries(counts).sort((a, b) => b[1] - a[1]);
@@ -358,14 +805,14 @@
 
     const listEl = document.getElementById('wc-list');
     listEl.innerHTML = wcData.slice(0, 12).map(([w, c]) =>
-      `<div style="display:flex;justify-content:space-between;padding:4px 0;
-                   border-bottom:1px solid rgba(255,255,255,0.06);">
+      `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
         <span>${w}</span><span style="color:var(--accent);font-weight:700;">${c}</span>
       </div>`
     ).join('') || '<div style="color:#555;padding:8px 0;">尚無資料</div>';
 
     const empty = document.getElementById('wc-empty');
     if (empty) empty.style.display = wcData.length > 0 ? 'none' : '';
+
     drawWordCloud();
   });
 
@@ -390,9 +837,11 @@
     });
   }
 
+  // 切換到文字雲頁時重繪
   Reveal.on('slidechanged', e => {
     if (e.currentSlide?.id === 'slide-wordcloud') setTimeout(drawWordCloud, 150);
   });
 </script>
+
 </body>
 </html>
