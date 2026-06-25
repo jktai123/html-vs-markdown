@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML 取代 Markdown？AI 輸出格式的革命</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+  <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+  <style>
+    /* === 全域變數 === */
+    :root {
+      --accent:  #e8643a;   /* 橘紅 */
+      --accent2: #4fc3f7;   /* 青色 */
+      --success: #81c784;   /* 綠色 */
+      --warn:    #ffb74d;   /* 琥珀色 */
+    }
+
+    .reveal {
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .reveal h1 { font-size: 2.2em; }
+    .reveal h2 { font-size: 1.5em; color: var(--accent2); }
+    .reveal .progress { color: var(--accent); }
+    .reveal .fragment { opacity: 0.2; }
+    .reveal .fragment.visible { opacity: 1; }
+
+    /* === 封面 === */
+    .title-slide { text-align: center; }
+    .title-slide .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.55em;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.8em;
+      font-weight: 600;
+    }
+    .title-slide .subtitle { font-size: 0.75em; color: #aaa; margin-top: 0.5em; }
+    .title-slide .author   { margin-top: 2em; font-size: 0.5em; color: #888; }
+
+    /* === 優勢卡（並列特點）=== */
+    .adv-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 0.6em; }
+    .adv-card {
+      background: rgba(255,255,255,0.05);
+      border-top: 4px solid var(--accent2);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .adv-card .adv-icon { margin-bottom: 8px; }
+    .adv-card .adv-icon img {
+      width: 56px; height: 56px; object-fit: contain;
+      display: block; margin: 0 auto;
+      filter: drop-shadow(0 0 10px rgba(79,195,247,0.6));
+    }
+    .adv-card .adv-title { font-size: 0.58em; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+    .adv-card .adv-desc  { font-size: 0.4em; color: #bbb; line-height: 1.6; }
+
+    /* === 結論卡 === */
+    .conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 0.8em; }
+    .conclusion-card { border-radius: 10px; padding: 18px; font-size: 0.44em; text-align: left; }
+    .conclusion-card.positive {
+      background: rgba(79,195,247,0.12);
+      border: 1px solid rgba(79,195,247,0.35);
+    }
+    .conclusion-card.caution {
+      background: rgba(255,183,77,0.1);
+      border: 1px solid rgba(255,183,77,0.3);
+    }
+    .conclusion-card .cc-title { font-size: 1.3em; font-weight: 700; margin-bottom: 8px; }
+    .conclusion-card.positive .cc-title { color: var(--accent2); }
+    .conclusion-card.caution  .cc-title { color: var(--warn); }
+    .conclusion-card ul { list-style: none; padding: 0; margin: 0; color: #ccc; line-height: 1.8; }
+    .conclusion-card ul li::before { content: "→ "; opacity: 0.6; }
+
+    /* === 封底 === */
+    .end-slide { text-align: center; }
+    .end-slide .big { font-size: 3em; margin-bottom: 0.2em; }
+    .end-slide .tagline { font-size: 0.65em; color: #aaa; }
+
+    /* === LIVE 動畫 === */
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1. 封面 -->
+    <section data-background-image="images/cover.png"
+             data-background-opacity="0.35"
+             data-background-size="cover">
+      <div class="title-slide">
+        <div class="tag">AI OUTPUT PRESENTATION</div>
+        <h1>HTML 取代 Markdown？</h1>
+        <h2 style="color:var(--accent); margin-top:0.2em;">AI 輸出格式的革命</h2>
+        <p class="subtitle">Thariq Shihipar 與 Claude Code 帶來的「運算分配者」新溝通浪潮</p>
+        <p class="author">Presented by Antigravity</p>
+      </div>
+    </section>
+
+    <!-- 2. 傳統 Markdown 的限制 -->
+    <section>
+      <h2>傳統 Markdown 的限制與瓶頸</h2>
+      <p style="font-size:0.5em; color:#888; margin-top:-10px;">當 AI 輸出的複雜度爆炸，純文字標記正遭遇三大挑戰：</p>
+      <div class="adv-grid">
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_cognitive.png" alt="Cognitive Bottleneck"></div>
+          <div class="adv-title">認知瓶頸</div>
+          <div class="adv-desc">傳統 Markdown 是一條「狹窄的文字長塔」，當要閱讀數千行規格與程式時，人類大腦會遭遇嚴重的認知過載。</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_interactive.png" alt="Lack of Interaction"></div>
+          <div class="adv-title">缺乏互動性</div>
+          <div class="adv-desc">Markdown 是靜態的文件呈現，不支援按鈕、下拉選單、分頁等，無法讓使用者直接在畫面上對計畫進行調整。</div>
+        </div>
+        <div class="adv-card fragment">
+          <div class="adv-icon"><img src="images/icon_loop.png" alt="Out of the Loop"></div>
+          <div class="adv-title">人類脫離決策圈</div>
+          <div class="adv-desc">因為純文字太枯燥、冗長，開發者常會選擇「盲目接受」AI 的計畫，而失去人工審查（Human-in-the-loop）的把關意義。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 為什麼選擇 HTML？ -->
+    <section data-background-image="images/why_html.png"
+             data-background-opacity="0.15"
+             data-background-size="cover">
+      <h2>為什麼選擇 HTML 格式？</h2>
+      <div style="display:flex; flex-direction:column; gap:16px; margin-top:30px; text-align:left; font-size:0.55em; line-height:1.8; max-width:800px; margin-left:auto; margin-right:auto;">
+        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent2); padding:12px 20px; border-radius:0 8px 8px 0;">
+          <strong style="color:var(--accent2);">📈 高資訊密度與視覺階層</strong><br>
+          利用 CSS Grid/Flexbox 排版、多彩標籤、SVG 圖表與折疊區塊，能將複雜計畫濃縮在一個螢幕內，大幅提昇掃讀效率。
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent2); padding:12px 20px; border-radius:0 8px 8px 0;">
+          <strong style="color:var(--accent2);">⚡ 即時 UI 操控（Throwaway Micro-UIs）</strong><br>
+          AI 可以輸出包含 JS 的一次性迷你工具（例如拖拉式排程、互動表單），讓人類能「直接互動」修改 AI 的下一步。
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); padding:12px 20px; border-radius:0 8px 8px 0;">
+          <strong style="color:var(--accent);">🤖 「運算分配者（Compute Allocator）」思維</strong><br>
+          軟體工程師的角色正從「程式碼撰寫者」轉變為「運算資源分配者」。HTML 作為媒介，可以讓我們更精準地引導和驗證 Agent。
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Markdown vs HTML 對比 -->
+    <section>
+      <h2>直觀格式對決 (滑桿展示)</h2>
+      <div style="position:relative; height:420px; border-radius:12px; overflow:hidden; background:#1e1e2e; border:1px solid rgba(255,255,255,0.1); margin-top:20px;">
+        <!-- 左（Before: Markdown） -->
+        <div id="viz-before" style="position:absolute; inset:0; padding:30px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; text-align:left; font-family:monospace; font-size:0.42em; color:#abb2bf; box-sizing:border-box;">
+          <div style="color:#e06c75; font-weight:bold; margin-bottom:10px; font-size:1.2em;"># 專案規劃</div>
+          <p style="margin:4px 0;">- [x] 核心架構設計 (100% 完成)</p>
+          <p style="margin:4px 0;">- [/] Firebase 即時同步 (遇到 CORS，處理中...)</p>
+          <p style="margin:4px 0;">- [ ] 介面美化 (未開始)</p>
+        </div>
+        <!-- 右（After: HTML） -->
+        <div id="viz-after" style="position:absolute; inset:0; padding:30px; display:flex; flex-direction:column; justify-content:center; background:#0d1117; box-sizing:border-box; clip-path:inset(0 100% 0 0);">
+          <div style="text-align:left; width:100%; max-width:600px; margin:0 auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h3 style="margin:0; font-size:0.7em; color:var(--accent2);">互動專案規劃儀表板</h3>
+              <span style="background:var(--accent); color:#fff; font-size:0.35em; padding:2px 8px; border-radius:10px; font-weight:700;">進行中</span>
+            </div>
+            <!-- 進度條 -->
+            <div style="background:rgba(255,255,255,0.1); height:12px; border-radius:6px; overflow:hidden; margin-bottom:20px;">
+              <div style="background:linear-gradient(90deg, var(--accent), var(--accent2)); width:65%; height:100%; border-radius:6px;"></div>
+            </div>
+            <!-- 任務列表卡片 -->
+            <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+              <div style="background:rgba(129,199,132,0.1); border-left:4px solid var(--success); padding:8px 12px; border-radius:4px; font-size:0.4em; display:flex; justify-content:space-between;">
+                <span>✓ 核心架構設計</span>
+                <span style="color:var(--success);">100%</span>
+              </div>
+              <div style="background:rgba(255,183,77,0.1); border-left:4px solid var(--warn); padding:8px 12px; border-radius:4px; font-size:0.4em; display:flex; justify-content:space-between; align-items:center;">
+                <span>⚡ Firebase 即時同步 (遭遇 CORS 阻擋，修復中)</span>
+                <span style="color:var(--warn); font-size:0.85em; background:rgba(255,183,77,0.2); padding:1px 5px; border-radius:3px;">65%</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.05); border-left:4px solid #666; padding:8px 12px; border-radius:4px; font-size:0.4em; color:#888;">
+                ☐ 介面美化 (等待 Firebase 連接完成)
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 分隔線 -->
+        <div id="viz-divider" style="position:absolute; top:0; left:0; width:3px; height:100%; background:linear-gradient(to bottom, transparent, var(--accent2), transparent); box-shadow:0 0 12px var(--accent2); pointer-events:none;"></div>
+        <!-- 標籤 -->
+        <div style="position:absolute; bottom:12px; left:12px; background:rgba(0,0,0,0.6); padding:4px 10px; border-radius:4px; font-size:0.35em; color:#888; pointer-events:none;">Markdown 原始碼</div>
+        <div style="position:absolute; bottom:12px; right:12px; background:rgba(0,0,0,0.6); padding:4px 10px; border-radius:4px; font-size:0.35em; color:var(--accent2); pointer-events:none;">HTML 渲染畫面</div>
+      </div>
+      <div style="margin-top:15px; display:flex; align-items:center; justify-content:center; gap:10px;">
+        <span style="font-size:0.4em; color:#888;">Markdown</span>
+        <input id="viz-slider" type="range" min="0" max="100" value="0" style="width:250px; cursor:pointer;">
+        <span style="font-size:0.4em; color:var(--accent2);">HTML 儀表板</span>
+      </div>
+    </section>
+
+    <!-- 5. 即時文字雲 -->
+    <section id="slide-wordcloud">
+      <h2 style="font-size:1.1em; margin-bottom:0.4em;">你認為未來 AI 輸出會以哪種格式為主？</h2>
+      <div style="display:grid; grid-template-columns:250px 1fr; gap:14px; height:460px;">
+        <!-- 左欄：輸入 + 排行 -->
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px;">
+            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px; text-align:left;">輸入你的答案</div>
+            <input id="wc-input" type="text" placeholder="例：HTML、Markdown、雙格式並存..." maxlength="20"
+              style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid rgba(79,195,247,0.3);
+                     background:rgba(255,255,255,0.08); color:#fff; font-size:13px;
+                     box-sizing:border-box; font-family:inherit; outline:none;" />
+            <button id="wc-btn"
+              style="width:100%; margin-top:8px; padding:9px; background:var(--accent2); color:#0d1117;
+                     border:none; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit;">
+              送出 ↵
+            </button>
+          </div>
+          <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px; flex:1; overflow:hidden; display:flex; flex-direction:column;">
+            <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px; text-align:left;">
+              熱門答案
+              <span style="display:inline-block; background:#ff4757; color:#fff; padding:2px 7px;
+                           border-radius:10px; font-size:0.85em; animation:pulse 1.5s infinite;">LIVE</span>
+            </div>
+            <div id="wc-list" style="font-size:0.34em; overflow-y:auto; flex:1; color:#ccc; text-align:left;"></div>
+            <div style="margin-top:8px; font-size:0.32em; color:#666; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px; text-align:left;">
+              總提交：<span id="wc-total" style="color:var(--accent); font-weight:700;">0</span>　
+              不同答案：<span id="wc-unique" style="color:var(--accent2); font-weight:700;">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右欄：文字雲 -->
+        <div style="background:rgba(255,255,255,0.04); border-radius:12px; overflow:hidden;
+                    position:relative; border:1px solid rgba(255,255,255,0.07);">
+          <canvas id="wc-canvas" style="width:100%; height:100%; display:block;"></canvas>
+          <div id="wc-empty" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+                                     color:#444; font-size:0.42em; text-align:center;
+                                     pointer-events:none; line-height:2;">
+            輸入第一個答案<br>文字雲就會出現 ✨
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 結論 -->
+    <section data-background-image="images/ending.png"
+             data-background-opacity="0.35"
+             data-background-size="cover">
+      <h2>結論：各司其職的未來</h2>
+      <div class="conclusion-grid">
+        <div class="conclusion-card positive">
+          <div class="cc-title">🌐 HTML 的舞台</div>
+          <ul>
+            <li>**終端簡報與呈現**：網頁直接展示。</li>
+            <li>**AI 與人類互動界面**：一次性微型 UIs。</li>
+            <li>**高密度資訊檢視**：提升審查意願。</li>
+          </ul>
+        </div>
+        <div class="conclusion-card caution">
+          <div class="cc-title">📄 Markdown 的防線</div>
+          <ul>
+            <li>**版本控制 (Git)**：不帶混亂的 diff 雜訊。</li>
+            <li>**輕量級程式碼存儲**：極致的 Token 效率。</li>
+            <li>**跨編輯器通用性**：不需渲染器即開即用。</li>
+          </ul>
+        </div>
+      </div>
+      <div class="end-slide" style="margin-top:40px;">
+        <p class="tagline">探索更高效的人機協同架構 — 感謝您的聆聽</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'slide',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    center: true,
+    progress: true,
+    controls: true,
+    slideNumber: 'c/t',
+    plugins: []
+  });
+
+  // VIZ 滑桿控制
+  document.getElementById('viz-slider').addEventListener('input', function() {
+    const v = +this.value;
+    document.getElementById('viz-after').style.clipPath = `inset(0 ${100-v}% 0 0)`;
+    document.getElementById('viz-divider').style.left = v + '%';
+  });
+</script>
+
+<!-- Firebase 文字雲即時連線 -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+  import {
+    getFirestore, collection, addDoc, onSnapshot,
+    serverTimestamp, query, orderBy
+  } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+
+  // 沿用 Firebase 預設專案設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYQhNavPSce17XtvDC5xnXyl9iUhW9KjA",
+    authDomain: "teacherstudy-109ef.firebaseapp.com",
+    projectId: "teacherstudy-109ef",
+    storageBucket: "teacherstudy-109ef.firebasestorage.app",
+    messagingSenderId: "196599230156",
+    appId: "1:196599230156:web:cfe55d364df3ae1b9d5c69"
+  };
+  const app = initializeApp(firebaseConfig);
+  const fdb = getFirestore(app);
+  const wordsRef = collection(fdb, 'html_vs_markdown_wordcloud');
+
+  const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
+  let wcData = [];
+
+  window.wcSubmit = async function() {
+    const input = document.getElementById('wc-input');
+    const word = input.value.trim();
+    if (!word) return;
+    const btn = document.getElementById('wc-btn');
+    btn.disabled = true;
+    try {
+      await addDoc(wordsRef, { word, created_at: serverTimestamp() });
+      input.value = '';
+    } catch(e) { console.error(e); }
+    finally { btn.disabled = false; }
+  };
+
+  document.getElementById('wc-input')?.addEventListener('keypress', e => {
+    if (e.key === 'Enter') window.wcSubmit();
+  });
+  document.getElementById('wc-btn')?.addEventListener('click', window.wcSubmit);
+
+  onSnapshot(query(wordsRef, orderBy('created_at', 'asc')), snap => {
+    const words = [];
+    snap.forEach(doc => {
+      const data = doc.data();
+      if (data && data.word) words.push(data.word);
+    });
+    const counts = {};
+    words.forEach(w => counts[w] = (counts[w] || 0) + 1);
+    wcData = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+    document.getElementById('wc-total').textContent = words.length;
+    document.getElementById('wc-unique').textContent = wcData.length;
+
+    const listEl = document.getElementById('wc-list');
+    listEl.innerHTML = wcData.slice(0, 12).map(([w, c]) =>
+      `<div style="display:flex;justify-content:space-between;padding:4px 0;
+                   border-bottom:1px solid rgba(255,255,255,0.06);">
+        <span>${w}</span><span style="color:var(--accent);font-weight:700;">${c}</span>
+      </div>`
+    ).join('') || '<div style="color:#555;padding:8px 0;">尚無資料</div>';
+
+    const empty = document.getElementById('wc-empty');
+    if (empty) empty.style.display = wcData.length > 0 ? 'none' : '';
+    drawWordCloud();
+  });
+
+  function drawWordCloud() {
+    const canvas = document.getElementById('wc-canvas');
+    if (!canvas || typeof WordCloud === 'undefined') return;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width < 10 || rect.height < 10) return;
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    if (wcData.length === 0) return;
+    const maxCount = wcData[0][1];
+    WordCloud(canvas, {
+      list: wcData.map(([w, c]) => [w, Math.max(18, Math.round((c / maxCount) * 76))]),
+      gridSize: 6,
+      weightFactor: 1,
+      fontFamily: '"Microsoft JhengHei", "Noto Sans TC", sans-serif',
+      color: () => COLORS[Math.floor(Math.random() * COLORS.length)],
+      backgroundColor: 'transparent',
+      rotateRatio: 0.3,
+      shuffle: true,
+    });
+  }
+
+  Reveal.on('slidechanged', e => {
+    if (e.currentSlide?.id === 'slide-wordcloud') setTimeout(drawWordCloud, 150);
+  });
+</script>
+</body>
+</html>
