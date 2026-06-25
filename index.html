@@ -882,15 +882,31 @@
     });
   }
 
-  // 切換到文字雲頁時重繪
+  // 切換投影片事件
   Reveal.on('slidechanged', e => {
-    if (e.currentSlide?.id === 'slide-wordcloud') setTimeout(drawWordCloud, 150);
+    if (e.currentSlide?.id === 'slide-wordcloud') {
+      setTimeout(drawWordCloud, 150);
+    }
+    if (e.currentSlide?.id === 'slide-transform') {
+      initSliderTransform();
+    }
   });
 
-  // 滑桿互動：Markdown ➜ HTML 雷射掃描
-  document.addEventListener('input', function(e) {
-    if (e.target && e.target.id === 'tf-slider') {
-      const v = +e.target.value;
+  // 當 Reveal 準備好時初始化
+  Reveal.on('ready', () => {
+    initSliderTransform();
+  });
+
+  function initSliderTransform() {
+    const slider = document.getElementById('tf-slider');
+    if (!slider) return;
+    
+    // 避免重複綁定
+    if (slider.dataset.bound) return;
+    slider.dataset.bound = "true";
+    
+    slider.addEventListener('input', function() {
+      const v = +this.value;
       
       const htmlContent = document.getElementById('tf-html-content');
       const scanline = document.getElementById('tf-scanline');
@@ -942,9 +958,9 @@
       if (pctText) {
         pctText.textContent = v + '%';
       }
-      e.target.style.background = `linear-gradient(to right, #4fc3f7 ${v}%, rgba(255,255,255,0.15) ${v}%)`;
-    }
-  });
+      this.style.background = `linear-gradient(to right, #4fc3f7 ${v}%, rgba(255,255,255,0.15) ${v}%)`;
+    });
+  }
 </script>
 
 </body>
