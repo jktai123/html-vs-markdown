@@ -456,94 +456,100 @@
     <section id="slide-transform">
       <h2 style="margin-bottom:0.3em;">親眼見證：Markdown ➜ HTML 即時轉換</h2>
 
-      <!-- 雙層疊合區域 -->
-      <div id="tf-wrap" style="position:relative; height:390px; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
+      <!-- Side-by-Side 雙欄容器 -->
+      <div id="tf-wrap" style="position:relative; display:flex; gap:4%; height:390px; width:100%; border-radius:12px; overflow:visible;">
 
-        <!-- Layer 1：Markdown 原始碼（底層，永遠可見）-->
-        <div id="tf-md" style="position:absolute;inset:0;padding:20px 24px;background:#0d1117;overflow:hidden;font-family:'Consolas','Courier New',monospace;font-size:0.38em;line-height:1.9;color:#8b949e;">
-<span style="color:#ff7b72;font-weight:700;">## AI 輸出格式的演進</span>
+        <!-- 左欄：Markdown 原始碼 -->
+        <div id="tf-md-col" style="width:48%; height:100%; background:#0d1117; border-radius:8px; border:1px solid rgba(255,255,255,0.1); padding:15px 20px; box-sizing:border-box; position:relative; overflow:hidden; font-family:'Consolas','Courier New',monospace; font-size:0.38em; line-height:1.7; text-align:left;">
+          <div style="position:absolute; top:8px; left:10px; font-size:0.8em; color:#58a6ff; background:rgba(13,17,23,0.8); padding:2px 8px; border-radius:12px; letter-spacing:0.05em; font-family:monospace; pointer-events:none; z-index:5;">Markdown Code</div>
+          <div id="tf-md-content" style="margin-top:20px; color:#cdd9e5; line-height:1.7;">
+<span style="color:#ff7b72; font-weight:700;"># ⚡ AI 互動效能報告</span>
 
-<span style="color:#cdd9e5;">過去 LLM context window 有限，</span><span style="color:#e6edf3;">**Markdown**</span><span style="color:#cdd9e5;"> 因語法精簡而成為標準。</span>
-<span style="color:#e6edf3;">**Thariq Shihipar**</span><span style="color:#cdd9e5;"> 在 2026 年 5 月大膽提出：</span>
+<span style="color:#7ee787; font-weight:bold;">## 核心指標</span>
+<span style="color:#79c0ff;">- **回應速度**: 120ms (極速)</span>
+<span style="color:#79c0ff;">- **Token 效率**: 92%</span>
 
-<span style="color:#58a6ff;">&gt; 「HTML 才是 AI Agent 的最佳輸出格式，</span>
-<span style="color:#58a6ff;">&gt;  Markdown 的時代已經過去。」</span>
+<span style="color:#7ee787; font-weight:bold;">## 即時流量分佈 (動態圖表)</span>
+<span style="color:#8b949e;">[此格式無法直接渲染 SVG 向量圖表]</span>
 
-<span style="color:#ff7b72;font-weight:700;">### 三大關鍵優勢</span>
-
-<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**視覺化**</span><span style="color:#cdd9e5;"> — SVG 圖表、精準排版、嵌入圖片</span>
-<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**互動性**</span><span style="color:#cdd9e5;"> — JavaScript 動態行為、按鈕事件</span>
-<span style="color:#7ee787;">-</span><span style="color:#cdd9e5;"> </span><span style="color:#e6edf3;">**分享力**</span><span style="color:#cdd9e5;"> — 單一 .html 檔，全裝置瀏覽器即開即用</span>
-
-<span style="color:#ffa657;">| 比較項目　　</span><span style="color:#ffa657;">| Markdown |  HTML  |</span>
-<span style="color:#ffa657;">|------------|----------|--------|</span>
-<span style="color:#ffa657;">| 視覺豐富度　</span><span style="color:#ffa657;">|    低    |   高   |</span>
-<span style="color:#ffa657;">| 互動能力　　</span><span style="color:#ffa657;">|    無    |   強   |</span>
-<span style="color:#ffa657;">| Token 效率  </span><span style="color:#ffa657;">|    高    |   中   |</span>
+<span style="color:#7ee787; font-weight:bold;">## 互動控制區</span>
+<span style="color:#8b949e;">[按鈕: 批准部署]  [按鈕: 拒絕]</span>
+          </div>
         </div>
 
-        <!-- Layer 2：HTML 渲染結果（上層，clip-path 控制）-->
-        <div id="tf-html" style="position:absolute;inset:0;padding:20px 24px;background:#161b22;overflow:hidden;clip-path:inset(0 100% 0 0);transition:clip-path 0s;">
-          <h2 style="font-size:1.4em;color:#4fc3f7;font-weight:700;margin:0 0 10px;border-bottom:2px solid rgba(79,195,247,0.3);padding-bottom:6px;">AI 輸出格式的演進</h2>
-          <p style="font-size:0.42em;color:#cdd9e5;margin:0 0 8px;line-height:1.7;">
-            過去 LLM context window 有限，<strong style="color:#fff;">Markdown</strong> 因語法精簡而成為標準。
-            <strong style="color:#fff;">Thariq Shihipar</strong> 在 2026 年 5 月大膽提出：
-          </p>
-          <blockquote style="margin:8px 0;padding:10px 16px;border-left:4px solid #4fc3f7;background:rgba(79,195,247,0.07);border-radius:0 8px 8px 0;">
-            <p style="font-size:0.4em;color:#93c5fd;font-style:italic;margin:0;line-height:1.7;">
-              「HTML 才是 AI Agent 的最佳輸出格式，<br>Markdown 的時代已經過去。」
-            </p>
-          </blockquote>
-          <h3 style="font-size:0.9em;color:#e8643a;font-weight:700;margin:10px 0 6px;">三大關鍵優勢</h3>
-          <ul style="font-size:0.4em;color:#cdd9e5;padding-left:1.2em;margin:0 0 10px;line-height:1.8;">
-            <li><strong style="color:#81c784;">視覺化</strong> — SVG 圖表、精準排版、嵌入圖片</li>
-            <li><strong style="color:#ffb74d;">互動性</strong> — JavaScript 動態行為、按鈕事件</li>
-            <li><strong style="color:#ce93d8;">分享力</strong> — 單一 .html 檔，全裝置瀏覽器即開即用</li>
-          </ul>
-          <table style="font-size:0.36em;width:100%;border-collapse:collapse;">
-            <thead>
-              <tr style="background:rgba(79,195,247,0.15);">
-                <th style="padding:6px 12px;text-align:left;color:#4fc3f7;border-bottom:1px solid rgba(79,195,247,0.3);">比較項目</th>
-                <th style="padding:6px 12px;text-align:center;color:#ffb74d;border-bottom:1px solid rgba(79,195,247,0.3);">Markdown</th>
-                <th style="padding:6px 12px;text-align:center;color:#81c784;border-bottom:1px solid rgba(79,195,247,0.3);">HTML</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="background:rgba(255,255,255,0.02);">
-                <td style="padding:5px 12px;color:#cdd9e5;">視覺豐富度</td>
-                <td style="padding:5px 12px;text-align:center;color:#f87171;">低 ✗</td>
-                <td style="padding:5px 12px;text-align:center;color:#4ade80;">高 ✓</td>
-              </tr>
-              <tr>
-                <td style="padding:5px 12px;color:#cdd9e5;">互動能力</td>
-                <td style="padding:5px 12px;text-align:center;color:#f87171;">無 ✗</td>
-                <td style="padding:5px 12px;text-align:center;color:#4ade80;">強 ✓</td>
-              </tr>
-              <tr style="background:rgba(255,255,255,0.02);">
-                <td style="padding:5px 12px;color:#cdd9e5;">Token 效率</td>
-                <td style="padding:5px 12px;text-align:center;color:#4ade80;">高 ✓</td>
-                <td style="padding:5px 12px;text-align:center;color:#facc15;">中 △</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- 右欄：HTML 預覽區 -->
+        <div id="tf-html-col" style="width:48%; height:100%; background:#161b22; border-radius:8px; border:1px solid rgba(255,255,255,0.1); box-sizing:border-box; position:relative; overflow:hidden; text-align:left;">
+          <div style="position:absolute; top:8px; left:10px; font-size:0.32em; color:#4fc3f7; background:rgba(22,27,34,0.8); padding:2px 8px; border-radius:12px; letter-spacing:0.05em; pointer-events:none; z-index:5;">HTML Render</div>
+          
+          <!-- 未開始時的提示字 -->
+          <div id="tf-html-hint" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:0.45em; color:#556; text-align:center; pointer-events:none; line-height:1.8; font-family:sans-serif; z-index:2; width:80%;">
+            拖動下方滑桿<br>開始「雷射掃描渲染」⚡
+          </div>
+
+          <!-- HTML 實際渲染內容 (透過 clip-path 控制揭露) -->
+          <div id="tf-html-content" style="position:absolute; inset:0; padding:40px 20px 15px 20px; box-sizing:border-box; clip-path:inset(0 100% 0 0); background:#161b22; z-index:1;">
+            <h3 style="font-size:0.65em; color:#fff; margin:0 0 10px; display:flex; align-items:center; gap:6px; font-weight:700; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
+              <span style="color:#4fc3f7;">⚡</span> AI 互動效能報告
+            </h3>
+            
+            <!-- 核心指標卡片 -->
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+              <div style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 10px; text-align:center;">
+                <div style="font-size:0.3em; color:#8b949e; margin-bottom:2px;">回應速度</div>
+                <div style="font-size:0.6em; color:#4ade80; font-weight:bold;">120ms</div>
+              </div>
+              <div style="flex:1; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:6px; padding:6px 10px; text-align:center;">
+                <div style="font-size:0.3em; color:#8b949e; margin-bottom:2px;">Token 效率</div>
+                <div style="font-size:0.6em; color:#4fc3f7; font-weight:bold;">92%</div>
+              </div>
+            </div>
+
+            <!-- SVG 動態波動圖表 -->
+            <h4 style="font-size:0.42em; color:#ffb74d; margin:0 0 4px; font-weight:600;">即時流量分佈 (SVG 圖表)</h4>
+            <div style="background:rgba(0,0,0,0.25); border-radius:6px; padding:6px; margin-bottom:12px; height:75px; display:flex; align-items:center; justify-content:center;">
+              <svg viewBox="0 0 200 60" style="width:100%; height:100%; overflow:visible;">
+                <defs>
+                  <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4fc3f7; stop-opacity:0.35" />
+                    <stop offset="100%" style="stop-color:#4fc3f7; stop-opacity:0.0" />
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+                <line x1="0" y1="25" x2="200" y2="25" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" />
+                <path d="M 0 50 L 30 40 L 60 45 L 90 20 L 120 30 L 150 10 L 180 25 L 200 15 L 200 50 Z" fill="url(#grad)" />
+                <path d="M 0 50 L 30 40 L 60 45 L 90 20 L 120 30 L 150 10 L 180 25 L 200 15" fill="none" stroke="#4fc3f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="150" cy="10" r="3.5" fill="#fff" />
+                <circle cx="150" cy="10" r="7" fill="none" stroke="#4fc3f7" stroke-width="1.2">
+                  <animate attributeName="r" values="3.5;8.5;3.5" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+
+            <!-- 互動控制區 -->
+            <h4 style="font-size:0.42em; color:#ce93d8; margin:0 0 6px; font-weight:600;">互動控制區</h4>
+            <div style="display:flex; gap:10px;">
+              <button onclick="alert('🚀 部署指令已發送！')" style="flex:1; background:linear-gradient(135deg, #2e7d32, #4caf50); color:#fff; border:none; border-radius:4px; padding:6px 0; font-size:0.35em; font-weight:bold; cursor:pointer; box-shadow:0 2px 4px rgba(0,0,0,0.25); transition:transform 0.1s; outline:none; font-family:sans-serif;">
+                批准部署
+              </button>
+              <button onclick="alert('❌ 部署已拒絕')" style="flex:1; background:rgba(255,255,255,0.05); color:#ff7b72; border:1px solid rgba(255,255,255,0.15); border-radius:4px; padding:6px 0; font-size:0.35em; cursor:pointer; transition:background 0.2s; outline:none; font-family:sans-serif;">
+                拒絕
+              </button>
+            </div>
+          </div>
+
+          <!-- 雷射掃描豎線 (位於右欄內，由 clip-path 邊界 left 控制) -->
+          <div id="tf-scanline" style="position:absolute; top:0; bottom:0; left:0%; width:3px; background:linear-gradient(to bottom, transparent, #4fc3f7, #4fc3f7, transparent); box-shadow:0 0 12px #4fc3f7, 0 0 20px rgba(79,195,247,0.6); pointer-events:none; display:none; opacity:0; z-index:3;"></div>
         </div>
 
-        <!-- 分隔線（跟著滑桿移動）-->
-        <div id="tf-divider" style="position:absolute;top:0;left:0%;width:3px;height:100%;background:linear-gradient(to bottom,transparent,#4fc3f7,#4fc3f7,transparent);box-shadow:0 0 12px #4fc3f7,0 0 24px rgba(79,195,247,0.4);pointer-events:none;transition:left 0s;">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#4fc3f7;border-radius:50%;width:18px;height:18px;box-shadow:0 0 10px #4fc3f7;"></div>
-        </div>
-
-        <!-- 左右標籤 -->
-        <div id="tf-label-md" style="position:absolute;top:8px;left:10px;font-size:0.28em;color:#58a6ff;background:rgba(13,17,23,0.8);padding:3px 10px;border-radius:20px;letter-spacing:0.05em;font-family:monospace;pointer-events:none;">{ Markdown 原始碼 }</div>
-        <div id="tf-label-html" style="position:absolute;top:8px;right:10px;font-size:0.28em;color:#4fc3f7;background:rgba(22,27,34,0.8);padding:3px 10px;border-radius:20px;letter-spacing:0.05em;pointer-events:none;">HTML 渲染結果</div>
       </div>
 
       <!-- 滑桿控制區 -->
-      <div style="margin-top:14px;display:flex;align-items:center;gap:14px;">
-        <span style="font-size:0.38em;color:#58a6ff;font-family:monospace;white-space:nowrap;">{ Markdown }</span>
-        <input id="tf-slider" type="range" min="0" max="100" value="0" style="flex:1;height:6px;border-radius:3px;appearance:none;background:linear-gradient(to right,#4fc3f7 0%,#4fc3f7 0%,rgba(255,255,255,0.15) 0%);outline:none;cursor:pointer;">
-        <span style="font-size:0.38em;color:#4fc3f7;white-space:nowrap;">HTML ✦</span>
-        <span id="tf-pct" style="font-size:0.38em;color:#888;min-width:3em;text-align:right;">0%</span>
+      <div style="margin-top:18px; display:flex; align-items:center; gap:14px;">
+        <span style="font-size:0.38em; color:#8b949e; font-family:monospace; white-space:nowrap;">[ Markdown ]</span>
+        <input id="tf-slider" type="range" min="0" max="100" value="0" style="flex:1; height:6px; border-radius:3px; appearance:none; background:linear-gradient(to right, #4fc3f7 0%, rgba(255,255,255,0.15) 0%); outline:none; cursor:pointer;">
+        <span style="font-size:0.38em; color:#4fc3f7; white-space:nowrap;">HTML ✦</span>
+        <span id="tf-pct" style="font-size:0.38em; color:#888; min-width:3em; text-align:right;">0%</span>
       </div>
 
       <style>
