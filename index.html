@@ -897,6 +897,9 @@
     initSliderTransform();
   });
 
+  // 主動執行一次，以防 ready 事件已經在腳本執行前觸發完畢
+  initSliderTransform();
+
   function initSliderTransform() {
     const slider = document.getElementById('tf-slider');
     if (!slider) return;
