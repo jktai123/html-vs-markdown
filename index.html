@@ -564,69 +564,6 @@
           box-shadow:0 0 8px #4fc3f7; cursor:pointer;
         }
       </style>
-
-      <script>
-        (function() {
-          // 使用事件代理，避免 Reveal.js 重建 DOM 導致監聽器失效
-          document.addEventListener('input', function(e) {
-            if (e.target && e.target.id === 'tf-slider') {
-              const v = +e.target.value;
-              
-              const htmlContent = document.getElementById('tf-html-content');
-              const scanline = document.getElementById('tf-scanline');
-              const htmlHint = document.getElementById('tf-html-hint');
-              const htmlCol = document.getElementById('tf-html-col');
-              const mdCol = document.getElementById('tf-md-col');
-              const pctText = document.getElementById('tf-pct');
-              
-              // 1. 控制右欄 HTML 揭露
-              if (htmlContent) {
-                htmlContent.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
-              }
-              
-              // 2. 控制雷射掃描線
-              if (scanline) {
-                if (v > 0 && v < 100) {
-                  scanline.style.display = 'block';
-                  scanline.style.opacity = '1';
-                  scanline.style.left = v + '%';
-                } else {
-                  scanline.style.opacity = '0';
-                  scanline.style.display = 'none';
-                }
-              }
-              
-              // 3. 控制提示字淡出
-              if (htmlHint) {
-                if (v > 10) {
-                  htmlHint.style.display = 'none';
-                } else {
-                  htmlHint.style.display = 'block';
-                  htmlHint.style.opacity = ((10 - v) / 10).toString();
-                }
-              }
-              
-              // 4. 控制左欄 Markdown 褪色與模糊 (Focus 切換)
-              if (mdCol) {
-                mdCol.style.opacity = (1 - (v / 100) * 0.75).toString();
-                mdCol.style.filter = `blur(${(v / 100) * 2}px)`;
-              }
-              
-              // 5. 控制右欄外框發光強度
-              if (htmlCol) {
-                htmlCol.style.boxShadow = `0 0 ${v * 0.15}px rgba(79, 195, 247, ${v * 0.004})`;
-                htmlCol.style.borderColor = v > 0 ? `rgba(79, 195, 247, ${0.1 + (v/100)*0.4})` : 'rgba(255,255,255,0.1)';
-              }
-              
-              // 6. 更新進度與軌道顏色
-              if (pctText) {
-                pctText.textContent = v + '%';
-              }
-              e.target.style.background = `linear-gradient(to right, #4fc3f7 ${v}%, rgba(255,255,255,0.15) ${v}%)`;
-            }
-          });
-        })();
-      </script>
     </section>
 
     <!-- ⑦ HTML vs Markdown 對比 -->
@@ -948,6 +885,65 @@
   // 切換到文字雲頁時重繪
   Reveal.on('slidechanged', e => {
     if (e.currentSlide?.id === 'slide-wordcloud') setTimeout(drawWordCloud, 150);
+  });
+
+  // 滑桿互動：Markdown ➜ HTML 雷射掃描
+  document.addEventListener('input', function(e) {
+    if (e.target && e.target.id === 'tf-slider') {
+      const v = +e.target.value;
+      
+      const htmlContent = document.getElementById('tf-html-content');
+      const scanline = document.getElementById('tf-scanline');
+      const htmlHint = document.getElementById('tf-html-hint');
+      const htmlCol = document.getElementById('tf-html-col');
+      const mdCol = document.getElementById('tf-md-col');
+      const pctText = document.getElementById('tf-pct');
+      
+      // 1. 控制右欄 HTML 揭露
+      if (htmlContent) {
+        htmlContent.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+      }
+      
+      // 2. 控制雷射掃描線
+      if (scanline) {
+        if (v > 0 && v < 100) {
+          scanline.style.display = 'block';
+          scanline.style.opacity = '1';
+          scanline.style.left = v + '%';
+        } else {
+          scanline.style.opacity = '0';
+          scanline.style.display = 'none';
+        }
+      }
+      
+      // 3. 控制提示字淡出
+      if (htmlHint) {
+        if (v > 10) {
+          htmlHint.style.display = 'none';
+        } else {
+          htmlHint.style.display = 'block';
+          htmlHint.style.opacity = ((10 - v) / 10).toString();
+        }
+      }
+      
+      // 4. 控制左欄 Markdown 褪色與模糊 (Focus 切換)
+      if (mdCol) {
+        mdCol.style.opacity = (1 - (v / 100) * 0.75).toString();
+        mdCol.style.filter = `blur(${(v / 100) * 2}px)`;
+      }
+      
+      // 5. 控制右欄外框發光強度
+      if (htmlCol) {
+        htmlCol.style.boxShadow = `0 0 ${v * 0.15}px rgba(79, 195, 247, ${v * 0.004})`;
+        htmlCol.style.borderColor = v > 0 ? `rgba(79, 195, 247, ${0.1 + (v/100)*0.4})` : 'rgba(255,255,255,0.1)';
+      }
+      
+      // 6. 更新進度與軌道顏色
+      if (pctText) {
+        pctText.textContent = v + '%';
+      }
+      e.target.style.background = `linear-gradient(to right, #4fc3f7 ${v}%, rgba(255,255,255,0.15) ${v}%)`;
+    }
   });
 </script>
 
