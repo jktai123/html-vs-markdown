@@ -768,7 +768,7 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const fdb = getFirestore(app);
+  const fdb = getFirestore(app, 'wordcloud-db');
   const wordsRef = collection(fdb, 'html_vs_md_reasons');
 
   const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
